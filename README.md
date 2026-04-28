@@ -27,6 +27,10 @@ Edit `index.html` (semua HTML + CSS + JS dalam 1 file). Push ke `main` → auto-
 
 Detail lengkap: lihat `Infipop_TikTok_Dashboard_Technical_Build.md` (handover doc dari Shafa).
 
+## Auto-deploy
+
+Push ke `main` → Vercel auto-build & deploy ke https://infipop-tiktok-dashboard.vercel.app
+
 ## Owner
 
 - **Dashboard logic, classification, analysis:** Shafa (Entertainment Desk)

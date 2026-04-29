@@ -77,7 +77,7 @@ tr:hover{background:#FAFBFF}
 <body>
 <div class="ctr">
 <div class="hdr">
-<div><h1><span class="dot"></span>Infipop TikTok Dashboard</h1><p class="sub">Performance Report — <span id="dr">April 2026</span> · <span id="pc">0</span> posts</p></div>
+<div><h1><span class="dot"></span>Infipop TikTok Dashboard</h1><p class="sub">Performance Report — <span id="dr">April 2026</span> · <span id="pc">0</span> posts</p><div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:11px;color:#6B7280"><button id="sb-sync-btn" onclick="loadFromSupabase()" style="background:#0038FF;color:white;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">↻ Sync now</button><span id="sb-status">Loading…</span></div></div>
 <div style="display:flex;gap:6px"><button class="btn" onclick="exportCSV()">↓ Export</button></div>
 </div>
 <div class="upload" onclick="document.getElementById('fi').click()"><input type="file" id="fi" accept=".xlsx,.xls"><strong>Upload data baru</strong> — .xlsx</div>
@@ -197,14 +197,22 @@ function exportCSV(){const h=['Date','Caption','Views','Likes','Comments','Share
 init(RAW);
 
 
-// === SUPABASE LIVE LOADER (auto-refresh 30s) ===
+// === SUPABASE LIVE LOADER (auto-refresh 30s + manual sync) ===
 const SB_URL='https://gwxlyzvsqciflmsxgjvq.supabase.co';
 const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3eGx5enZzcWNpZmxtc3hnanZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3MDYyNTMsImV4cCI6MjA5MTI4MjI1M30.sJk4sJagjlbNlUeeNIawFE6ghk3UkZ00Lo96hAA9gw4';
+let SB_FIRST_LOAD=true;
 let SB_LAST_SUCCESS=null;
+let SB_SYNCING=false;
 async function loadFromSupabase(){
+  if(SB_SYNCING)return;
+  SB_SYNCING=true;
+  const btn=document.getElementById('sb-sync-btn');
+  const stEl=document.getElementById('sb-status');
+  if(btn){btn.textContent='Syncing…';btn.disabled=true;btn.style.opacity='0.6';}
+  if(stEl&&SB_FIRST_LOAD)stEl.textContent='Loading…';
   try{
-    const r=await fetch(SB_URL+'/rest/v1/tiktok_posts?select=*&order=publish_iso.desc',{
-      headers:{apikey:SB_ANON,Authorization:'Bearer '+SB_ANON}
+    const r=await fetch(SB_URL+'/rest/v1/tiktok_posts?select=*&order=publish_iso.desc&limit=2000',{
+      headers:{apikey:SB_ANON,Authorization:'Bearer '+SB_ANON},cache:'no-store'
     });
     if(!r.ok) throw new Error('HTTP '+r.status);
     const data=await r.json();
@@ -218,14 +226,22 @@ async function loadFromSupabase(){
       link:d.link,post_id:d.post_id,
       section:d.section,sub:d.sub||'',analysis:d.analysis||''
     }));
-    init(RAW);render();
+    if(SB_FIRST_LOAD){
+      init(RAW);
+      SB_FIRST_LOAD=false;
+    }else{
+      // preserve user's date filter selection — only refresh data + re-apply filter
+      all=RAW.map(p=>({...p,section:p.section||cls(p.caption),sub:p.sub||sub(p.caption)}));
+      af();
+    }
     SB_LAST_SUCCESS=new Date();
-    const el=document.getElementById('sb-status');
-    if(el)el.textContent='Synced '+SB_LAST_SUCCESS.toLocaleTimeString('id-ID');
+    if(stEl)stEl.textContent='Synced '+SB_LAST_SUCCESS.toLocaleTimeString('id-ID')+' · '+RAW.length+' posts';
   }catch(e){
     console.error('[Supabase fetch fail]',e.message);
-    const el=document.getElementById('sb-status');
-    if(el)el.textContent='Sync error: '+e.message;
+    if(stEl)stEl.textContent='Sync error: '+e.message;
+  }finally{
+    SB_SYNCING=false;
+    if(btn){btn.textContent='↻ Sync now';btn.disabled=false;btn.style.opacity='1';}
   }
 }
 loadFromSupabase();

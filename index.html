@@ -116,6 +116,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 .pat-c h4{font-size:11px;font-weight:600;margin-bottom:4px}
 .pat-m{font-size:10px;color:var(--b);font-family:'Space Mono',monospace;margin-bottom:5px}
 .pat-r{font-size:10px;color:#374151;line-height:1.4;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.pat-pending-badge{display:inline-block;background:#FEF3C7;color:#92400E;font-size:10px;padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:600}
+.pat-act{display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid #F3F4F6}
+.pat-btn{flex:1;padding:5px 10px;font-size:10px;font-weight:600;border:none;border-radius:4px;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.pat-btn-ok{background:#10B981;color:white}
+.pat-btn-no{background:#EF4444;color:white}
+.pat-btn:hover{opacity:.85}
 .glo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:10px;color:var(--t2);line-height:1.5}
 .glo-grid b{color:#0F172A;font-weight:600}
 @media(max-width:900px){.glo-grid{grid-template-columns:1fr}}
@@ -273,7 +279,15 @@ html+=`<div class="bx-ap"><h3>🎯 Action Plan</h3>${ap.map((a,i)=>{
 if(lessons)html+=`<div class="g2-i"><div class="bx-do"><h3>DO ✓</h3>${(lessons.do||[]).map(d=>`<div class="li-do">→ ${d}</div>`).join('')}</div><div class="bx-dont"><h3>DON'T ✗</h3>${(lessons.dont||[]).map(d=>`<div class="li-dont">→ ${d}</div>`).join('')}</div></div>`;
 if(dna)html+=`<div class="dna-note"><b>🧬 DNA Tracker:</b> ${dna}</div>`;
 if(COMPLIANCE)html+=`<div class="bx-comp"><h3>📋 Rapor Compliance — ${COMPLIANCE.score}/${COMPLIANCE.score_max} <span class="comp-verdict">${COMPLIANCE.verdict}</span></h3><div class="comp-grid">${Object.entries(COMPLIANCE.rule_descriptions||{}).map(([r,d])=>{const c=COMPLIANCE.violations_by_rule[r]||0;const col=c===0?'#10B981':c<5?'#F59E0B':'#EF4444';return`<div class="comp-r"><span class="comp-rl">${r}</span><span class="comp-rd">${d}</span><span class="comp-rc" style="color:${col}">${c} fails</span></div>`;}).join('')}</div></div>`;
-if(PATTERNS.length)html+=`<div class="bx-pat"><h3>🔍 Pattern Discovery — ${PATTERNS.length} candidates</h3><div class="pat-grid">${PATTERNS.map(p=>`<div class="pat-c"><div class="pat-meta"><span class="pat-cat">${p.pattern_type}</span><span class="pat-st">${p.status}</span></div><h4>${p.pattern_value}</h4>${p.metric_name?`<div class="pat-m">📊 ${p.metric_name}</div>`:''}<p class="pat-r">${p.rationale||''}</p></div>`).join('')}</div></div>`;
+if(PATTERNS.length){
+  const pending=PATTERNS.filter(p=>p.status==='pending').length;
+  html+=`<div class="bx-pat"><h3>🔍 Pattern Discovery — ${PATTERNS.length} candidates ${pending?`<span class="pat-pending-badge">${pending} pending</span>`:''}</h3><div class="pat-grid">${PATTERNS.map(p=>{
+    const stColor=p.status==='approved'?'#10B981':p.status==='rejected'?'#EF4444':'#6B7280';
+    const stBg=p.status==='approved'?'#D1FAE5':p.status==='rejected'?'#FEE2E2':'#F3F4F6';
+    const buttons=p.status==='pending'?`<div class="pat-act"><button onclick="reviewPattern(${p.id},'approved')" class="pat-btn pat-btn-ok">✓ Approve</button><button onclick="reviewPattern(${p.id},'rejected')" class="pat-btn pat-btn-no">✗ Reject</button></div>`:'';
+    return`<div class="pat-c" id="pat-c-${p.id}"><div class="pat-meta"><span class="pat-cat">${p.pattern_type}</span><span class="pat-st" style="background:${stBg};color:${stColor}">${p.status}</span></div><h4>${p.pattern_value}</h4>${p.metric_name?`<div class="pat-m">📊 ${p.metric_name}</div>`:''}<p class="pat-r">${p.rationale||''}</p>${buttons}</div>`;
+  }).join('')}</div></div>`;
+}
 html+=`<div class="bx-glo"><h3>📖 Glossary</h3><div class="glo-grid">
 <div><b>Section</b>: Editorial (default), Entertainment (#reaction/#reporting/dll), TikTokTainment (#tiktoktainment, biasanya boosted/paid).</div>
 <div><b>Tier</b>: 🥇 GOLD ≥5x section avg · 🥈 SILVER ≥2x · 🥉 BRONZE ≥1x · ◽ STANDARD 0.3-1x · 🔻 UNDERPERFORM &lt;0.3x.</div>
@@ -301,6 +315,26 @@ dz.addEventListener('drop',e=>{e.preventDefault();dz.style.borderColor='';hf(e.d
 fi.addEventListener('change',e=>{if(e.target.files[0])hf(e.target.files[0]);});
 
 function hf(file){const r=new FileReader();r.onload=e=>{const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',raw:false});const ws=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(ws,{raw:false});const parsed=rows.map((r,i)=>{const pid=String(r['Post ID']||r['Item id']||'').replace('.0','');return{no:i+1,date:r['Tanggal']||'',time:r['Waktu']||'',headline:(r['Headline']||r['Item title']||'').substring(0,80),caption:r['Caption (Full)']||r['Item title']||'',views:parseInt(String(r['Video Views']||r['Video views td']||0).replace(/,/g,''))||0,playtime:parseFloat(r['Playtime/View (s)']||r['Playtime/view']||0)||0,likes:parseInt(String(r['Likes']||r['Likes td']||0).replace(/,/g,''))||0,comments:parseInt(String(r['Comments']||r['comments td']||0).replace(/,/g,''))||0,shares:parseInt(String(r['Shares']||r['Shares td']||0).replace(/,/g,''))||0,finish_rate:parseFloat(r['Finish Rate']||r['Finish rate td']||0)||0,saves:parseInt(r['Saves']||0)||0,new_followers:parseInt(r['New Followers']||0)||0,link:r['Link']||(pid?'https://www.tiktok.com/@infipop.id/video/'+pid:''),post_id:pid,analysis:''};});init(parsed);dz.innerHTML='<strong>✓ '+file.name+'</strong> — '+parsed.length+' posts';};r.readAsArrayBuffer(file);}
+
+async function reviewPattern(id,newStatus){
+  const card=document.getElementById('pat-c-'+id);
+  if(card){card.style.opacity='0.5';card.style.pointerEvents='none';}
+  try{
+    const r=await fetch(SB_URL+'/rest/v1/tiktok_pattern_candidates?id=eq.'+id,{
+      method:'PATCH',
+      headers:{'apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({status:newStatus})
+    });
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    // Update local state + re-render
+    const p=PATTERNS.find(x=>x.id===id);
+    if(p)p.status=newStatus;
+    rInsights();
+  }catch(e){
+    console.error('[review pattern]',e);
+    if(card){card.style.opacity='1';card.style.pointerEvents='auto';alert('Failed to update: '+e.message);}
+  }
+}
 
 function exportCSV(){const h=['Date','Caption','Views','Likes','Comments','Shares','Saves','New Followers','Playtime','FinishRate','Section','SubFormat','Link'];const rows=fil.map(p=>[p.date,'"'+(p.caption||'').replace(/"/g,'""').substring(0,200)+'"',p.views,p.likes,p.comments,p.shares,p.saves||0,p.new_followers||0,p.playtime,p.finish_rate,p.section,p.sub,p.link]);const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='infipop_tiktok.csv';a.click();}
 

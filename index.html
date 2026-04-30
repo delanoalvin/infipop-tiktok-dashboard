@@ -52,6 +52,74 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);-webk
 .rf-a{font-size:10px;color:var(--t1);margin-top:4px;line-height:1.4;background:#F9FAFB;padding:6px 8px;border-radius:4px;border-left:3px solid var(--b)}
 .rf-l{font-size:10px;color:var(--b);text-decoration:none;font-weight:500;margin-top:3px;display:inline-block}
 .rf-l:hover{text-decoration:underline}
+/* Thumbnails + Tier + Framework + AI */
+.rk-thumb{flex-shrink:0;width:90px;height:130px;border:none;padding:0;border-radius:6px;overflow:hidden;background:#000;cursor:pointer;position:relative;display:block}
+.rk-thumb img{width:100%;height:100%;object-fit:cover}
+.rk-thumb-empty{background:#F3F4F6;color:#9CA3AF;font-size:9px;display:flex;align-items:center;justify-content:center}
+.rk-thumb-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0F172A;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.rk-thumb-dur{position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,.7);color:white;font-size:9px;padding:1px 4px;border-radius:2px;font-family:'Space Mono',monospace}
+.rk-iframe{width:90px;height:130px;border:none;border-radius:6px}
+.rk-tags{display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap;align-items:center}
+.tier-badge{font-size:8px;padding:1px 5px;border-radius:3px;font-weight:700;letter-spacing:.3px}
+.fw-badge{font-size:8px;padding:1px 5px;border-radius:3px;font-weight:700;background:#F3F4F6;color:#6B7280;font-family:'Space Mono',monospace}
+.rk-ai{font-size:10px;color:var(--t1);margin-top:3px;line-height:1.4;background:#F9FAFB;padding:5px 7px;border-radius:4px;border-left:3px solid var(--b)}
+.rk-ai b{color:#0F172A;font-weight:600}
+.rk-ctx{background:#FEF3C7;border-left-color:#F59E0B;font-style:italic}
+.rk-actions{display:flex;gap:8px;align-items:center;margin-top:5px}
+.rk-fw-toggle{font-size:9px;color:var(--t2);background:none;border:none;cursor:pointer;padding:0}
+.rk-fw-toggle:hover{color:var(--b)}
+.rk-fw{margin-top:6px;padding:6px 8px;background:#F9FAFB;border-radius:4px}
+.rk-fw-d{display:flex;align-items:center;gap:6px;font-size:9px;margin-bottom:3px}
+.rk-fw-l{flex-shrink:0;width:110px;color:#374151}
+.rk-fw-bar{flex:1;height:5px;background:#E5E7EB;border-radius:3px;overflow:hidden}
+.rk-fw-fill{height:100%;border-radius:3px}
+.rk-fw-s{font-family:'Space Mono',monospace;color:#6B7280;width:24px;text-align:right}
+/* Insights v2 */
+.tldr-hero{background:linear-gradient(135deg,#0038FF,#3B82F6);color:white;border-radius:8px;padding:18px;margin-bottom:14px;font-size:13px;line-height:1.55}
+.g2-i{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:900px){.g2-i{grid-template-columns:1fr}}
+.bx-i{background:white;border:1px solid var(--bd);border-radius:8px;padding:14px}
+.bx-i h3{font-size:12px;font-weight:600;margin-bottom:8px}
+.bx-i div{font-size:11px;color:#374151;line-height:1.5;padding:4px 0;border-bottom:1px solid #F3F4F6}
+.bx-i div:before{content:'▸ ';color:var(--b)}
+.bx-i div:last-child{border-bottom:none}
+.bx-ap{background:white;border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:14px}
+.bx-ap h3{font-size:12px;font-weight:600;margin-bottom:10px;color:var(--b)}
+.bx-ap div{font-size:11px;color:#0F172A;padding:6px 0;border-bottom:1px solid #F3F4F6;line-height:1.5}
+.bx-ap div:last-child{border-bottom:none}
+.bx-do,.bx-dont{border-radius:8px;padding:14px}
+.bx-do{background:#F0FDF4;border:1px solid #BBF7D0}
+.bx-dont{background:#FEF2F2;border:1px solid #FECACA}
+.bx-do h3{color:#065F46;font-size:12px;margin-bottom:8px}
+.bx-dont h3{color:#991B1B;font-size:12px;margin-bottom:8px}
+.li-do{font-size:11px;color:#064E3B;padding:3px 0}
+.li-dont{font-size:11px;color:#7F1D1D;padding:3px 0}
+.dna-note{background:#F9FAFB;border:1px solid var(--bd);border-radius:6px;padding:10px;font-size:11px;color:#374151;margin-bottom:14px}
+.dna-note b{color:#0F172A}
+.bx-comp,.bx-pat,.bx-glo{background:white;border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:14px}
+.bx-comp h3,.bx-pat h3,.bx-glo h3{font-size:12px;font-weight:600;margin-bottom:10px}
+.comp-verdict{font-size:9px;background:#D1FAE5;color:#065F46;padding:2px 6px;border-radius:3px;margin-left:6px;font-weight:700}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.comp-r{display:flex;gap:8px;font-size:10px;align-items:center}
+.comp-rl{font-family:'Space Mono',monospace;font-weight:700;width:25px}
+.comp-rd{flex:1;color:var(--t2)}
+.comp-rc{font-family:'Space Mono',monospace;font-weight:700}
+.pat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:900px){.pat-grid,.comp-grid{grid-template-columns:1fr}}
+.pat-c{background:#F9FAFB;border:1px solid var(--bd);border-radius:6px;padding:10px}
+.pat-meta{display:flex;gap:6px;margin-bottom:5px;align-items:center}
+.pat-cat{font-size:9px;text-transform:uppercase;color:var(--t3);font-family:'Space Mono',monospace}
+.pat-st{font-size:9px;background:#F3F4F6;color:var(--t2);padding:1px 5px;border-radius:3px}
+.pat-c h4{font-size:11px;font-weight:600;margin-bottom:4px}
+.pat-m{font-size:10px;color:var(--b);font-family:'Space Mono',monospace;margin-bottom:5px}
+.pat-r{font-size:10px;color:#374151;line-height:1.4;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.glo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:10px;color:var(--t2);line-height:1.5}
+.glo-grid b{color:#0F172A;font-weight:600}
+@media(max-width:900px){.glo-grid{grid-template-columns:1fr}}
+/* Table thumbnail */
+.t-thumb{width:36px;height:48px;object-fit:cover;border-radius:3px;display:block}
+.t-thumb-e{background:#F3F4F6}
+@media print{.btn,.upload,#sb-sync-btn,iframe{display:none!important}}
 .tw{background:white;border:1px solid var(--bd);border-radius:8px;overflow-x:auto;margin-bottom:16px}
 table{width:100%;border-collapse:collapse;font-size:10px}
 th{text-align:left;padding:8px;font-size:9px;text-transform:uppercase;letter-spacing:.3px;color:var(--t3);border-bottom:2px solid var(--bd);cursor:pointer;user-select:none;white-space:nowrap;font-weight:600}
@@ -127,14 +195,17 @@ tr:hover{background:#FAFBFF}
 <div id="vA">
 <div class="sh">All Posts <span class="badge b-b" id="tpc">0</span></div>
 <div class="tw"><table><thead><tr>
-<th data-s="date">Tgl</th><th data-s="headline">Caption</th><th data-s="views">Views ↕</th><th data-s="likes">Likes ↕</th><th data-s="comments">Cmt ↕</th><th data-s="shares">Share ↕</th><th data-s="saves">Saves ↕</th><th data-s="new_followers">Foll ↕</th><th data-s="playtime">Play ↕</th><th data-s="finish_rate">Fin% ↕</th><th>Section</th><th>Link</th>
+<th>Cover</th><th data-s="date">Tgl</th><th data-s="headline">Caption</th><th data-s="views">Views ↕</th><th data-s="likes">Likes ↕</th><th data-s="comments">Cmt ↕</th><th data-s="shares">Share ↕</th><th data-s="saves">Saves ↕</th><th data-s="new_followers">Foll ↕</th><th data-s="playtime">Play ↕</th><th data-s="finish_rate">Fin% ↕</th><th>Section</th><th>Link</th>
 </tr></thead><tbody id="tb"></tbody></table></div>
 </div>
 
 </div>
 <script>
 let RAW=[];
-const ANALYSIS={"highlights": ["Campaign TikTokTainment (Tiba Tiba Setan) mendominasi total views \u2014 14 post menghasilkan 37.7M views (80% dari total). Avg 2.7M/post, 67x lipat Editorial organic. Partnership ini jadi bukti bahwa boosted content masih jadi driver utama reach.", "Entertainment section (Reaction, Reporting, Voxpop) avg 76,477 views/post \u2014 outperform Editorial (39,869 avg) secara signifikan. Original TikTok production lebih resonan sama audience dibanding repost editorial.", "Total 9,666 new followers dari 199 posts \u2014 artinya setiap post rata-rata nambah ~49 followers. TikTokTainment jadi top contributor (avg 482 followers/post).", "Saves total 34,076 \u2014 konten Infipop punya reference value yang kuat. Top saves ada di konten Mischka Aoki Oxford/Stanford (9,887 saves) yang jadi bookmark buat inspirasi pendidikan.", "Posting frequency stabil di 8.0 posts/hari sepanjang April, gak ada gap lebih dari 1 hari tanpa upload."], "lowlights": ["Editorial organic avg cuma 39,869 views/post \u2014 gap besar sama Entertainment (76,477). Repost IG ke TikTok tanpa adaptasi format kemungkinan jadi penyebab.", "Finish rate keseluruhan rendah \u2014 banyak post di bawah 5%. Artinya mayoritas audience drop sebelum video selesai. Durasi konten mungkin perlu diperpendek atau hook diperkuat.", "Ada 28 posts dengan views di bawah 2K \u2014 konten yang hampir gak ter-distribute sama algorithm. Perlu evaluasi topik dan timing upload."], "action_plan": ["Prioritaskan format Entertainment (Reaction, Reporting) over Editorial repost \u2014 data April nunjukin avg views Entertainment lebih tinggi. Mulai dengan ratio 60% Entertainment, 40% Editorial.", "Perkuat hook 3 detik pertama \u2014 finish rate rendah artinya audience drop awal. Coba buka dengan pertanyaan kontroversial, angka yang mengejutkan, atau visual yang bikin stop-scroll.", "Manfaatin momentum collab \u2014 post dengan mention kreator lain (Bernadya, Amel Carla, dll) consistently outperform. Target minimal 2 collab/mention content per minggu.", "Optimalkan talent/on-cam presence untuk Reporting format \u2014 konten dengan talent di depan kamera punya engagement rate lebih tinggi. Bangun familiarity audience sama talent tetap.", "Track saves sebagai quality metric \u2014 saves = reference value. Konten edukasi dan inspirasi (kayak Mischka Aoki) punya saves rate tertinggi. Banyakin angle yang bikin orang bookmark.", "Evaluasi post dengan views <2K \u2014 identifikasi pattern: apakah topik, timing, atau hook yang jadi masalah. Jangan repeat formula yang konsisten underperform.", "Perpendek durasi konten Editorial \u2014 finish rate Editorial jauh di bawah Entertainment. Coba format 15-30 detik untuk editorial repost, simpan format panjang untuk original content."]};
+let ANALYSIS={};
+let COMPLIANCE=null;
+let PATTERNS=[];
+const _ANALYSIS_FALLBACK={"highlights": ["Campaign TikTokTainment (Tiba Tiba Setan) mendominasi total views \u2014 14 post menghasilkan 37.7M views (80% dari total). Avg 2.7M/post, 67x lipat Editorial organic. Partnership ini jadi bukti bahwa boosted content masih jadi driver utama reach.", "Entertainment section (Reaction, Reporting, Voxpop) avg 76,477 views/post \u2014 outperform Editorial (39,869 avg) secara signifikan. Original TikTok production lebih resonan sama audience dibanding repost editorial.", "Total 9,666 new followers dari 199 posts \u2014 artinya setiap post rata-rata nambah ~49 followers. TikTokTainment jadi top contributor (avg 482 followers/post).", "Saves total 34,076 \u2014 konten Infipop punya reference value yang kuat. Top saves ada di konten Mischka Aoki Oxford/Stanford (9,887 saves) yang jadi bookmark buat inspirasi pendidikan.", "Posting frequency stabil di 8.0 posts/hari sepanjang April, gak ada gap lebih dari 1 hari tanpa upload."], "lowlights": ["Editorial organic avg cuma 39,869 views/post \u2014 gap besar sama Entertainment (76,477). Repost IG ke TikTok tanpa adaptasi format kemungkinan jadi penyebab.", "Finish rate keseluruhan rendah \u2014 banyak post di bawah 5%. Artinya mayoritas audience drop sebelum video selesai. Durasi konten mungkin perlu diperpendek atau hook diperkuat.", "Ada 28 posts dengan views di bawah 2K \u2014 konten yang hampir gak ter-distribute sama algorithm. Perlu evaluasi topik dan timing upload."], "action_plan": ["Prioritaskan format Entertainment (Reaction, Reporting) over Editorial repost \u2014 data April nunjukin avg views Entertainment lebih tinggi. Mulai dengan ratio 60% Entertainment, 40% Editorial.", "Perkuat hook 3 detik pertama \u2014 finish rate rendah artinya audience drop awal. Coba buka dengan pertanyaan kontroversial, angka yang mengejutkan, atau visual yang bikin stop-scroll.", "Manfaatin momentum collab \u2014 post dengan mention kreator lain (Bernadya, Amel Carla, dll) consistently outperform. Target minimal 2 collab/mention content per minggu.", "Optimalkan talent/on-cam presence untuk Reporting format \u2014 konten dengan talent di depan kamera punya engagement rate lebih tinggi. Bangun familiarity audience sama talent tetap.", "Track saves sebagai quality metric \u2014 saves = reference value. Konten edukasi dan inspirasi (kayak Mischka Aoki) punya saves rate tertinggi. Banyakin angle yang bikin orang bookmark.", "Evaluasi post dengan views <2K \u2014 identifikasi pattern: apakah topik, timing, atau hook yang jadi masalah. Jangan repeat formula yang konsisten underperform.", "Perpendek durasi konten Editorial \u2014 finish rate Editorial jauh di bawah Entertainment. Coba format 15-30 detik untuk editorial repost, simpan format panjang untuk original content."]};
 
 const ENT_KW=['bernadya','amelcarla','mawardejongh','amel carla','mawar de jongh','dzawin','tungguakusuksesnanti','tasn','lukamakancinta','luka makan cinta'];
 function cls(c){c=(c||'').toLowerCase();if(c.includes('#tiktoktainment')||c.includes('#tiktokshowbiz'))return'TikTokTainment';if(['#reaction','#reporting','#interview','#voxpop','#popthetalk','#podcastclip'].some(t=>c.includes(t)))return'Entertainment';if(ENT_KW.some(k=>c.includes(k)))return'Entertainment';return'Editorial';}
@@ -169,13 +240,44 @@ function rCompare(){if(aView!=='C')return;const secs=['Editorial','Entertainment
 
 function rBreakdown(){if(aView!=='B')return;const sd={};fil.forEach(p=>{const k=p.section+(p.sub?' — '+p.sub:'');if(!sd[k])sd[k]={n:0,v:0,l:0,sv:0,fl:0};sd[k].n++;sd[k].v+=p.views;sd[k].l+=p.likes;sd[k].sv+=(p.saves||0);sd[k].fl+=(p.new_followers||0);});const en=Object.entries(sd).sort((a,b)=>b[1].v-a[1].v);dc('c5');dc('c6');ch.c5=new Chart(document.getElementById('c5'),{type:'doughnut',data:{labels:en.map(e=>e[0]),datasets:[{data:en.map(e=>e[1].n),backgroundColor:CL,borderWidth:0}]},options:{plugins:{legend:{position:'bottom',labels:{font:{family:'DM Sans',size:9},padding:6}}},cutout:'60%'}});ch.c6=new Chart(document.getElementById('c6'),{type:'bar',data:{labels:en.map(e=>e[0]),datasets:[{data:en.map(e=>Math.round(e[1].v/e[1].n)),backgroundColor:CL,borderRadius:3}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>fm(v)}}}}});document.getElementById('bkB').innerHTML=en.map(([k,v])=>`<tr><td style="font-weight:600;font-size:11px">${k}</td><td class="m">${v.n}</td><td class="m">${fm(v.v)}</td><td class="m">${fm(Math.round(v.v/v.n))}</td><td class="m">${fm(Math.round(v.l/v.n))}</td><td class="m">${Math.round(v.sv/v.n)}</td><td class="m">${Math.round(v.fl/v.n)}</td></tr>`).join('');}
 
-function rRanks(){if(aView!=='R')return;const secs=aTab==='All'?['Editorial','Entertainment','TikTokTainment']:[aTab];let h='';secs.forEach(sec=>{let ps=all.filter(p=>p.section===sec);if(aSub!=='All')ps=ps.filter(p=>p.sub===aSub);if(ps.length<2)return;const sr=[...ps].sort((a,b)=>b.views-a.views);const avg=ps.reduce((s,p)=>s+p.views,0)/ps.length;const t5=sr.slice(0,5),w5=sr.slice(-5).reverse();const bc=sec==='Editorial'?'b-b':sec==='Entertainment'?'b-p':'b-g';h+=`<div class="sh">${sec} <span class="badge ${bc}">${ps.length} posts · ${fm(ps.reduce((s,p)=>s+p.views,0))} views</span></div><div class="g2">`;h+=`<div class="bx"><h3>🔥 Top 5</h3>`;t5.forEach((p,i)=>{h+=rk(p,i+1,true);});h+=`</div><div class="bx"><h3>📉 Worst 5</h3>`;w5.forEach((p,i)=>{h+=rk(p,ps.length-i,false);});h+='</div></div>';});document.getElementById('ranks').innerHTML=h;}
+function rRanks(){if(aView!=='R')return;const secs=aTab==='All'?['Editorial','Entertainment','TikTokTainment']:[aTab];let h='';secs.forEach(sec=>{let ps=all.filter(p=>p.section===sec);if(aSub!=='All')ps=ps.filter(p=>p.sub===aSub);if(ps.length<2)return;const sr=[...ps].sort((a,b)=>b.views-a.views);const avg=ps.reduce((s,p)=>s+p.views,0)/ps.length;const t5=sr.slice(0,5);const w5=sr.filter(p=>p.views>0).slice(-5).reverse();const bc=sec==='Editorial'?'b-b':sec==='Entertainment'?'b-p':'b-g';h+=`<div class="sh">${sec} <span class="badge ${bc}">${ps.length} posts · ${fm(ps.reduce((s,p)=>s+p.views,0))} views</span></div><div class="g2">`;h+=`<div class="bx"><h3>🔥 Top 5</h3>`;t5.forEach((p,i)=>{h+=rk(p,i+1,true,avg);});h+=`</div><div class="bx"><h3>📉 Worst 5</h3>`;w5.forEach((p,i)=>{h+=rk(p,ps.length-i,false,avg);});h+='</div></div>';});document.getElementById('ranks').innerHTML=h;}
 
-function rk(p,n,isTop){const s=p.sub?`<span class="tg tg-s">${p.sub}</span>`:'';const an=p.analysis?`<div class="rf-a">${p.analysis}</div>`:'';return`<div class="ri"><div class="rn ${isTop?'rn-t':'rn-w'}">${n}</div><div class="rf"><div class="rf-t">${(p.headline||'').substring(0,90)}${s}</div><div class="rf-m"><span>${fm(p.views)}v</span><span>♥${fm(p.likes)}</span><span>💬${p.comments}</span><span>↗${fm(p.shares)}</span><span>🔖${fm(p.saves||0)}</span><span>👤${p.new_followers||0}</span></div>${an}<a class="rf-l" href="${p.link}" target="_blank">▶ Tonton</a></div></div>`;}
+function tierFor(p,sectionAvg){const r=sectionAvg>0?p.views/sectionAvg:0;if(r>=5)return{l:'GOLD',e:'🥇',bg:'#FEF3C7',c:'#92400E'};if(r>=2)return{l:'SILVER',e:'🥈',bg:'#E5E7EB',c:'#374151'};if(r>=1)return{l:'BRONZE',e:'🥉',bg:'#FED7AA',c:'#9A3412'};if(r>=0.3)return{l:'STANDARD',e:'◽',bg:'#F3F4F6',c:'#6B7280'};return{l:'UNDERPERFORM',e:'🔻',bg:'#FEE2E2',c:'#991B1B'};}
 
-function rInsights(){if(aView!=='I')return;document.getElementById('hiList').innerHTML=(ANALYSIS.highlights||[]).map(h=>`<div class="insight-item"><span class="bullet hi-bullet"></span>${h}</div>`).join('');document.getElementById('loList').innerHTML=(ANALYSIS.lowlights||[]).map(l=>`<div class="insight-item"><span class="bullet lo-bullet"></span>${l}</div>`).join('');document.getElementById('apList').innerHTML=(ANALYSIS.action_plan||[]).map(a=>`<div class="insight-item"><span class="bullet ap-bullet"></span>${a}</div>`).join('');}
+function thumbHtml(p){const src=p.cover_thumb_url||p.cover_url;if(!src)return`<div class="rk-thumb rk-thumb-empty">no preview</div>`;const dur=p.duration_sec?`<div class="rk-thumb-dur">${Math.floor(p.duration_sec/60)}:${String(p.duration_sec%60).padStart(2,'0')}</div>`:'';return`<button class="rk-thumb" onclick="playEmbed('${p.post_id}',this)" title="Play"><img src="${src}" loading="lazy" referrerpolicy="no-referrer"><div class="rk-thumb-play">▶</div>${dur}</button>`;}
 
-function rTable(){document.getElementById('tb').innerHTML=fil.map(p=>{const tc=p.section==='Editorial'?'tg-e':p.section==='Entertainment'?'tg-n':'tg-t';const s=p.sub?` <span class="tg tg-s">${p.sub}</span>`:'';return`<tr><td class="m" style="white-space:nowrap;font-size:9px">${p.date}</td><td class="tc" title="${(p.caption||'').replace(/"/g,'&quot;')}">${(p.headline||'').substring(0,55)}</td><td class="m" style="text-align:right">${fm(p.views)}</td><td class="m" style="text-align:right">${fm(p.likes)}</td><td class="m" style="text-align:right">${p.comments}</td><td class="m" style="text-align:right">${fm(p.shares)}</td><td class="m" style="text-align:right">${fm(p.saves||0)}</td><td class="m" style="text-align:right">${p.new_followers||0}</td><td class="m" style="text-align:right">${p.playtime.toFixed(1)}</td><td class="m" style="text-align:right">${p.finish_rate.toFixed(1)}%</td><td><span class="tg ${tc}">${p.section}</span>${s}</td><td><a href="${p.link}" target="_blank" style="color:var(--b)">▶</a></td></tr>`;}).join('');}
+function playEmbed(postId,btn){const card=btn.parentElement;card.innerHTML=`<iframe src="https://www.tiktok.com/embed/v2/${postId}" class="rk-iframe" allow="accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;}
+
+function rk(p,n,isTop,sectionAvg){const tier=tierFor(p,sectionAvg);const sub=p.sub?`<span class="tg tg-s">${p.sub}</span>`:'';const tierBadge=`<span class="tier-badge" style="background:${tier.bg};color:${tier.c}">${tier.e} ${tier.l}</span>`;const fwBadge=p.framework_total_score!=null?`<span class="fw-badge" title="${p.framework_verdict||''}">${p.framework_total_score}/${p.framework_max_score||25}</span>`:'';const kenapa=p.ai_kenapa?`<div class="rk-ai"><b>${isTop?'Kenapa menang:':'Kenapa jatuh:'}</b> ${p.ai_kenapa}</div>`:'';const resep=p.ai_resep_or_lesson?`<div class="rk-ai"><b>${isTop?'Resep:':'Lesson:'}</b> ${p.ai_resep_or_lesson}</div>`:'';const konteks=p.ai_konteks_waktu?`<div class="rk-ai rk-ctx">📅 ${p.ai_konteks_waktu}</div>`:'';const fwExp=p.framework_dimensions?`<div class="rk-fw" id="fw-${p.post_id}-${n}" style="display:none">${p.framework_dimensions.map(d=>{const pct=(d.score/d.max)*100;const col=d.score>=4?'#10B981':d.score>=3?'#0038FF':d.score>=2?'#F59E0B':'#EF4444';return`<div class="rk-fw-d"><span class="rk-fw-l">${d.name}</span><div class="rk-fw-bar"><div class="rk-fw-fill" style="width:${pct}%;background:${col}"></div></div><span class="rk-fw-s">${d.score}/${d.max}</span></div>`;}).join('')}</div>`:'';const fwToggle=p.framework_dimensions?`<button class="rk-fw-toggle" onclick="document.getElementById('fw-${p.post_id}-${n}').style.display=document.getElementById('fw-${p.post_id}-${n}').style.display==='none'?'block':'none'">▼ Rubric</button>`:'';return`<div class="ri"><div class="rn ${isTop?'rn-t':'rn-w'}">${n}</div>${thumbHtml(p)}<div class="rf"><div class="rk-tags">${tierBadge}${sub}${fwBadge}</div><div class="rf-t">${(p.headline||'').substring(0,90)}</div><div class="rf-m"><span>${fm(p.views)}v</span><span>♥${fm(p.likes)}</span><span>💬${p.comments}</span><span>↗${fm(p.shares)}</span><span>🔖${fm(p.saves||0)}</span><span>👤${p.new_followers||0}</span></div>${kenapa}${resep}${konteks}<div class="rk-actions"><a class="rf-l" href="${p.link}" target="_blank">▶ TikTok</a>${fwToggle}</div>${fwExp}</div></div>`;}
+
+function rInsights(){if(aView!=='I')return;
+const tldr=ANALYSIS.tldr;
+const ap=ANALYSIS.action_plan||[];
+const lessons=ANALYSIS.lessons;
+const dna=ANALYSIS.dna_tracker_note;
+let html='';
+if(tldr)html+=`<div class="tldr-hero">${tldr}</div>`;
+html+=`<div class="g2-i">
+<div class="bx-i"><h3>✅ Highlights</h3><div id="hiList"></div></div>
+<div class="bx-i"><h3>⚠️ Lowlights</h3><div id="loList"></div></div>
+</div>`;
+html+=`<div class="bx-ap"><h3>🎯 Action Plan</h3><div id="apList"></div></div>`;
+if(lessons)html+=`<div class="g2-i"><div class="bx-do"><h3>DO ✓</h3>${(lessons.do||[]).map(d=>`<div class="li-do">→ ${d}</div>`).join('')}</div><div class="bx-dont"><h3>DON'T ✗</h3>${(lessons.dont||[]).map(d=>`<div class="li-dont">→ ${d}</div>`).join('')}</div></div>`;
+if(dna)html+=`<div class="dna-note"><b>🧬 DNA Tracker:</b> ${dna}</div>`;
+if(COMPLIANCE)html+=`<div class="bx-comp"><h3>📋 Rapor Compliance — ${COMPLIANCE.score}/${COMPLIANCE.score_max} <span class="comp-verdict">${COMPLIANCE.verdict}</span></h3><div class="comp-grid">${Object.entries(COMPLIANCE.rule_descriptions||{}).map(([r,d])=>{const c=COMPLIANCE.violations_by_rule[r]||0;const col=c===0?'#10B981':c<5?'#F59E0B':'#EF4444';return`<div class="comp-r"><span class="comp-rl">${r}</span><span class="comp-rd">${d}</span><span class="comp-rc" style="color:${col}">${c} fails</span></div>`;}).join('')}</div></div>`;
+if(PATTERNS.length)html+=`<div class="bx-pat"><h3>🔍 Pattern Discovery — ${PATTERNS.length} candidates</h3><div class="pat-grid">${PATTERNS.map(p=>`<div class="pat-c"><div class="pat-meta"><span class="pat-cat">${p.pattern_type}</span><span class="pat-st">${p.status}</span></div><h4>${p.pattern_value}</h4>${p.metric_name?`<div class="pat-m">📊 ${p.metric_name}</div>`:''}<p class="pat-r">${p.rationale||''}</p></div>`).join('')}</div></div>`;
+html+=`<div class="bx-glo"><h3>📖 Glossary</h3><div class="glo-grid">
+<div><b>Section</b>: Editorial (default), Entertainment (#reaction/#reporting/dll), TikTokTainment (#tiktoktainment, biasanya boosted/paid).</div>
+<div><b>Tier</b>: 🥇 GOLD ≥5x section avg · 🥈 SILVER ≥2x · 🥉 BRONZE ≥1x · ◽ STANDARD 0.3-1x · 🔻 UNDERPERFORM &lt;0.3x.</div>
+<div><b>Framework Rubric</b>: 5 dimensi (max 25): Hook, Engagement Rate, Save Rate, Share Rate, Follower Attribution. ≥15 = PASS.</div>
+<div><b>Save Rate</b>: saves/views — bookmark value. Audience anggap reference/inspirational.</div>
+<div><b>AI Analysis</b>: Kenapa (alasan perform/jatuh) + Resep (formula) atau Lesson (top vs bottom). Auto-refresh tiap 6 jam.</div>
+<div><b>Verdict</b>: ≥20 EXCELLENT · ≥15 PASS · ≥10 NEEDS WORK · &lt;10 STOP.</div>
+</div></div>`;
+document.getElementById('vI').innerHTML=html;
+}
+
+function rTable(){const filtered=fil.filter(p=>p.headline&&p.views>0);document.getElementById('tb').innerHTML=filtered.map(p=>{const tc=p.section==='Editorial'?'tg-e':p.section==='Entertainment'?'tg-n':'tg-t';const s=p.sub?` <span class="tg tg-s">${p.sub}</span>`:'';const thumb=p.cover_thumb_url||p.cover_url?`<img src="${p.cover_thumb_url||p.cover_url}" class="t-thumb" loading="lazy" referrerpolicy="no-referrer">`:`<div class="t-thumb t-thumb-e"></div>`;return`<tr><td>${thumb}</td><td class="m" style="white-space:nowrap;font-size:9px">${p.date}</td><td class="tc" title="${(p.caption||'').replace(/"/g,'&quot;')}">${(p.headline||'').substring(0,55)}</td><td class="m" style="text-align:right">${fm(p.views)}</td><td class="m" style="text-align:right">${fm(p.likes)}</td><td class="m" style="text-align:right">${p.comments}</td><td class="m" style="text-align:right">${fm(p.shares)}</td><td class="m" style="text-align:right">${fm(p.saves||0)}</td><td class="m" style="text-align:right">${p.new_followers||0}</td><td class="m" style="text-align:right">${p.playtime.toFixed(1)}</td><td class="m" style="text-align:right">${p.finish_rate.toFixed(1)}%</td><td><span class="tg ${tc}">${p.section}</span>${s}</td><td><a href="${p.link}" target="_blank" style="color:var(--b)">▶</a></td></tr>`;}).join('');document.getElementById('tpc').textContent=filtered.length+' (of '+fil.length+')';}
 
 function sT(t){aTab=t;aSub='All';af();}
 function sS(s){aSub=s;af();}
@@ -224,8 +326,26 @@ async function loadFromSupabase(){
       saves:Number(d.saves)||0,new_followers:Number(d.new_followers)||0,
       playtime:Number(d.playtime)||0,finish_rate:Number(d.finish_rate)||0,
       link:d.link,post_id:d.post_id,
-      section:d.section,sub:d.sub||'',analysis:d.analysis||''
+      section:d.section,sub:d.sub||'',analysis:d.analysis||'',
+      cover_url:d.cover_url||null,cover_thumb_url:d.cover_thumb_url||null,
+      video_url:d.video_url||null,duration_sec:d.duration_sec||null,
+      ai_kenapa:d.ai_kenapa||null,ai_resep_or_lesson:d.ai_resep_or_lesson||null,
+      ai_konteks_waktu:d.ai_konteks_waktu||null,
+      tier:d.tier||null,tier_emoji:d.tier_emoji||null,
+      framework_total_score:d.framework_total_score,framework_max_score:d.framework_max_score,
+      framework_verdict:d.framework_verdict,framework_dimensions:d.framework_dimensions
     }));
+    // Fetch aggregate insights + compliance + patterns
+    Promise.all([
+      fetch(SB_URL+'/rest/v1/tiktok_report_cache?select=*&cache_key=like.aggregate_*&order=generated_at.desc&limit=1',{headers:{apikey:SB_ANON,Authorization:'Bearer '+SB_ANON},cache:'no-store'}).then(r=>r.ok?r.json():[]),
+      fetch(SB_URL+'/rest/v1/tiktok_report_cache?select=*&cache_key=eq.compliance_latest&limit=1',{headers:{apikey:SB_ANON,Authorization:'Bearer '+SB_ANON},cache:'no-store'}).then(r=>r.ok?r.json():[]),
+      fetch(SB_URL+'/rest/v1/tiktok_pattern_candidates?select=*&order=created_at.desc&limit=15',{headers:{apikey:SB_ANON,Authorization:'Bearer '+SB_ANON},cache:'no-store'}).then(r=>r.ok?r.json():[])
+    ]).then(([agg,cmp,pat])=>{
+      ANALYSIS=agg[0]?.payload||_ANALYSIS_FALLBACK;
+      COMPLIANCE=cmp[0]?.payload||null;
+      PATTERNS=pat||[];
+      if(!SB_FIRST_LOAD)render();
+    }).catch(()=>{ANALYSIS=_ANALYSIS_FALLBACK;});
     if(SB_FIRST_LOAD){
       init(RAW);
       SB_FIRST_LOAD=false;

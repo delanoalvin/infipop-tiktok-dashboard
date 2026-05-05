@@ -576,7 +576,8 @@ async function loadFromSupabase(){
     const data=await r.json();
     RAW=data.map(d=>({
       date:d.publish_date,time:d.publish_time||'',
-      headline:d.headline||'',caption:d.caption||'',
+      headline:d.headline||'',headline_visual:d.headline_visual||null,headline_visual_confidence:d.headline_visual_confidence||null,
+      caption:d.caption||'',
       views:Number(d.views)||0,likes:Number(d.likes)||0,
       comments:Number(d.comments)||0,shares:Number(d.shares)||0,
       saves:Number(d.saves)||0,new_followers:Number(d.new_followers)||0,
@@ -588,6 +589,9 @@ async function loadFromSupabase(){
       ai_kenapa:d.ai_kenapa||null,ai_resep_or_lesson:d.ai_resep_or_lesson||null,
       ai_konteks_waktu:d.ai_konteks_waktu||null,
       tier:d.tier||null,tier_emoji:d.tier_emoji||null,
+      visual_score:d.visual_score||null,visual_archetype:d.visual_archetype||null,
+      content_program:d.content_program||null,content_pillar:d.content_pillar||null,
+      tier_score:d.tier_score||null,
       framework_total_score:d.framework_total_score,framework_max_score:d.framework_max_score,
       framework_verdict:d.framework_verdict,framework_dimensions:d.framework_dimensions
     }));

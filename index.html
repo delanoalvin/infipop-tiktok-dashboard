@@ -198,7 +198,7 @@ tr:hover{background:#FAFBFF}
 <div class="ctr">
 <div class="hdr">
 <div><h1><span class="dot"></span>Infipop TikTok Dashboard</h1><p class="sub">Performance Report — <span id="dr">April 2026</span> · <span id="pc">0</span> posts</p><div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:11px;color:#6B7280"><button id="sb-sync-btn" onclick="loadFromSupabase()" style="background:#0038FF;color:white;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">↻ Sync now</button><span id="sb-status">Loading…</span></div></div>
-<div style="display:flex;gap:6px"><button class="btn" onclick="exportCSV()">↓ Export</button></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" onclick="exportPDF()" title="Print → Save as PDF">📄 PDF</button><button class="btn" onclick="exportXLSX()" title="Real Excel .xlsx (2 sheets)">📊 Excel</button><button class="btn" onclick="exportCSV()" title="Plain CSV (Excel-compatible)">📝 CSV</button></div>
 </div>
 <div class="upload" onclick="document.getElementById('fi').click()"><input type="file" id="fi" accept=".xlsx,.xls"><strong>Upload data baru</strong> — .xlsx</div>
 <div class="dr"><label>Dari:</label><input type="date" id="d1" onchange="af()"><label>Sampai:</label><input type="date" id="d2" onchange="af()"></div>
@@ -419,12 +419,13 @@ async function reviewPattern(id,newStatus){
   }
 }
 
-function exportCSV(){
-  const esc=v=>{if(v==null)return '';const s=String(v);if(/[",\n\r]/.test(s))return '"'+s.replace(/"/g,'""')+'"';return s;};
+// Build export rows — single source of truth for CSV + XLSX
+function buildExportData(){
   const rate=(num,den)=>den>0?(num/den*100).toFixed(2):'';
-  const h=[
+  const tiktokLink=p=>p.link||('https://www.tiktok.com/@infipop.id/video/'+p.post_id);
+  const headers=[
     // IDs
-    'post_id','link','video_url',
+    'post_id','tiktok_link','video_url',
     // Content
     'headline','headline_visual','caption',
     // Classification
@@ -444,22 +445,107 @@ function exportCSV(){
     // Date
     'publish_date','publish_time'
   ];
-  const rows=fil.map(p=>[
-    p.post_id,p.link,p.video_url||'',
-    p.headline,p.headline_visual||'',p.caption,
-    p.section,p.sub,p.content_program||'',p.content_pillar||'',
-    p.views,p.likes,p.comments,p.shares,p.saves||0,p.new_followers||0,p.playtime,p.finish_rate,
-    rate(p.likes+p.comments,p.views),rate(p.saves,p.views),rate(p.shares,p.views),rate(p.likes,p.views),
-    p.tier||'',p.tier_score||'',
-    p.framework_total_score||'',p.framework_max_score||'',p.framework_verdict||'',
-    p.ai_kenapa||'',p.ai_resep_or_lesson||'',p.ai_konteks_waktu||'',
-    p.cover_url||'',p.cover_thumb_url||'',p.duration_sec||'',p.visual_score||'',p.visual_archetype||'',
-    p.date,p.time
-  ]);
+  const rows=fil.map(p=>{
+    const link=tiktokLink(p);
+    return [
+      p.post_id||'',
+      link,
+      p.video_url||link,                    // fallback ke watch link kalau video_url null
+      p.headline||'(no headline)',
+      p.headline_visual||'',
+      p.caption||'',
+      p.section||'(unclassified)',
+      p.sub||'',
+      p.content_program||'',
+      p.content_pillar||'',
+      Number(p.views)||0,
+      Number(p.likes)||0,
+      Number(p.comments)||0,
+      Number(p.shares)||0,
+      Number(p.saves)||0,
+      Number(p.new_followers)||0,
+      Number(p.playtime)||0,
+      Number(p.finish_rate)||0,
+      rate(p.likes+p.comments,p.views),
+      rate(p.saves,p.views),
+      rate(p.shares,p.views),
+      rate(p.likes,p.views),
+      p.tier||'',
+      p.tier_score||'',
+      p.framework_total_score||'',
+      p.framework_max_score||'',
+      p.framework_verdict||'',
+      p.ai_kenapa||'',
+      p.ai_resep_or_lesson||'',
+      p.ai_konteks_waktu||'',
+      p.cover_url||'',
+      p.cover_thumb_url||'',
+      p.duration_sec||'',
+      p.visual_score||'',
+      p.visual_archetype||'',
+      p.date||'',
+      p.time||''
+    ];
+  });
+  return {headers,rows};
+}
+
+function exportCSV(){
+  const esc=v=>{if(v==null)return '';const s=String(v);if(/[",\n\r]/.test(s))return '"'+s.replace(/"/g,'""')+'"';return s;};
+  const {headers,rows}=buildExportData();
   // UTF-8 BOM untuk Excel reads emoji + Indonesian chars
-  const csv='﻿'+[h.map(esc).join(','),...rows.map(r=>r.map(esc).join(','))].join('\n');
+  const csv='﻿'+[headers.map(esc).join(','),...rows.map(r=>r.map(esc).join(','))].join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
   a.download=`infipop_tiktok_${(new Date()).toISOString().slice(0,10)}.csv`;a.click();
+}
+
+function exportPDF(){window.print();}
+
+// Lazy-load SheetJS for real .xlsx export
+async function loadSheetJS(){
+  if(window.XLSX)return window.XLSX;
+  await new Promise((res,rej)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';
+    s.onload=res;s.onerror=()=>rej(new Error('SheetJS CDN gagal load'));
+    document.head.appendChild(s);
+  });
+  return window.XLSX;
+}
+
+async function exportXLSX(){
+  try{
+    const XLSX=await loadSheetJS();
+    const {headers,rows}=buildExportData();
+    const wb=XLSX.utils.book_new();
+    // Sheet 1: All Posts
+    const ws1=XLSX.utils.aoa_to_sheet([headers,...rows]);
+    XLSX.utils.book_append_sheet(wb,ws1,'All Posts');
+    // Sheet 2: Summary
+    const totals=fil.reduce((a,p)=>{a.posts++;a.views+=p.views||0;a.likes+=p.likes||0;a.comments+=p.comments||0;a.shares+=p.shares||0;a.saves+=p.saves||0;a.fol+=p.new_followers||0;return a;},{posts:0,views:0,likes:0,comments:0,shares:0,saves:0,fol:0});
+    const summary=[
+      ['Infipop TikTok Report'],
+      ['Generated',new Date().toISOString()],
+      ['Filter tab',aTab],
+      ['Filter sub',aSub],
+      ['Date range',(document.getElementById('d1').value||'all')+' → '+(document.getElementById('d2').value||'all')],
+      [],
+      ['Total Posts',totals.posts],
+      ['Total Views',totals.views],
+      ['Avg Views/Post',totals.posts?Math.round(totals.views/totals.posts):0],
+      ['Total Likes',totals.likes],
+      ['Total Comments',totals.comments],
+      ['Total Shares',totals.shares],
+      ['Total Saves',totals.saves],
+      ['Total New Followers',totals.fol],
+      ['Eng Rate %',totals.views?+((totals.likes+totals.comments)/totals.views*100).toFixed(2):0],
+      ['Save Rate %',totals.views?+(totals.saves/totals.views*100).toFixed(2):0],
+      ['Share Rate %',totals.views?+(totals.shares/totals.views*100).toFixed(2):0],
+    ];
+    const ws2=XLSX.utils.aoa_to_sheet(summary);
+    XLSX.utils.book_append_sheet(wb,ws2,'Summary');
+    XLSX.writeFile(wb,`infipop_tiktok_${(new Date()).toISOString().slice(0,10)}.xlsx`);
+  }catch(e){alert('Gagal export Excel: '+e.message+'\nFallback ke CSV ya.');exportCSV();}
 }
 
 init(RAW);

@@ -203,8 +203,12 @@ tr:hover{background:#FAFBFF}
 <div class="upload" onclick="document.getElementById('fi').click()"><input type="file" id="fi" accept=".xlsx,.xls"><strong>Upload data baru</strong> — .xlsx</div>
 <div class="dr"><label>Dari:</label><input type="date" id="d1" onchange="af()"><label>Sampai:</label><input type="date" id="d2" onchange="af()"></div>
 <div class="cards" id="cards"></div>
-<div class="tabs" id="secTabs"></div>
-<div class="pills" id="subPills"></div>
+<div class="filter-row" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 10px 0">
+  <label style="font-size:12px;color:#6B7280;font-weight:500">Section</label>
+  <select id="secSelect" onchange="sT(this.value)" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;font-size:13px;font-family:inherit;cursor:pointer;min-width:200px"></select>
+  <label id="subLabel" style="font-size:12px;color:#6B7280;font-weight:500">Sub-Format</label>
+  <select id="subSelect" onchange="sS(this.value)" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;font-size:13px;font-family:inherit;cursor:pointer;min-width:200px"></select>
+</div>
 <div class="tabs" id="viewTabs"></div>
 
 <!-- OVERVIEW -->
@@ -276,9 +280,9 @@ function render(){rCards();rSecTabs();rSubPills();rViewTabs();rOverview();rCompa
 function rCards(){const d=fil,tv=d.reduce((s,p)=>s+p.views,0),tl=d.reduce((s,p)=>s+p.likes,0),tc=d.reduce((s,p)=>s+p.comments,0),ts=d.reduce((s,p)=>s+p.shares,0),tsv=d.reduce((s,p)=>s+(p.saves||0),0),tf=d.reduce((s,p)=>s+(p.new_followers||0),0),ap=d.length?d.reduce((s,p)=>s+p.playtime,0)/d.length:0;
 document.getElementById('cards').innerHTML=[{l:'Posts',v:d.length},{l:'Total Views',v:fm(tv)},{l:'Avg Views',v:fm(d.length?tv/d.length:0)},{l:'Total Likes',v:fm(tl)},{l:'Total Comments',v:fm(tc)},{l:'Total Shares',v:fm(ts)},{l:'Total Saves',v:fm(tsv)},{l:'New Followers',v:fm(tf)},{l:'Avg Play',v:ap.toFixed(1)+'s'}].map(c=>`<div class="card"><div class="l">${c.l}</div><div class="v m">${c.v}</div></div>`).join('');}
 
-function rSecTabs(){const s={};all.forEach(p=>{s[p.section]=(s[p.section]||0)+1;});document.getElementById('secTabs').innerHTML=`<div class="tab ${aTab==='All'?'a':''}" onclick="sT('All')">All<span class="c">${all.length}</span></div>`+['Editorial','Entertainment','TikTokTainment'].map(k=>`<div class="tab ${aTab===k?'a':''}" onclick="sT('${k}')">${k}<span class="c">${s[k]||0}</span></div>`).join('');}
+function rSecTabs(){const s={};all.forEach(p=>{s[p.section]=(s[p.section]||0)+1;});const sel=document.getElementById('secSelect');const opts=[`<option value="All" ${aTab==='All'?'selected':''}>All Sections (${all.length})</option>`].concat(['Editorial','Entertainment','TikTokTainment'].map(k=>`<option value="${k}" ${aTab===k?'selected':''}>${k} (${s[k]||0})</option>`));sel.innerHTML=opts.join('');}
 
-function rSubPills(){const el=document.getElementById('subPills');if(aTab!=='Entertainment'&&aTab!=='All'){el.innerHTML='';return;}const s={};const src=aTab==='All'?all.filter(p=>p.section==='Entertainment'):fil;src.forEach(p=>{if(p.sub)s[p.sub]=(s[p.sub]||0)+1;});el.innerHTML=`<div class="pill ${aSub==='All'?'a':''}" onclick="sS('All')">All<span class="c">${src.length}</span></div>`+Object.entries(s).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="pill ${aSub===k?'a':''}" onclick="sS('${k}')">${k}<span class="c">${v}</span></div>`).join('');}
+function rSubPills(){const sel=document.getElementById('subSelect');const lbl=document.getElementById('subLabel');if(aTab!=='Entertainment'&&aTab!=='All'){sel.style.display='none';lbl.style.display='none';return;}sel.style.display='';lbl.style.display='';const s={};const src=aTab==='All'?all.filter(p=>p.section==='Entertainment'):fil;src.forEach(p=>{if(p.sub)s[p.sub]=(s[p.sub]||0)+1;});const opts=[`<option value="All" ${aSub==='All'?'selected':''}>All Sub-Formats (${src.length})</option>`].concat(Object.entries(s).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<option value="${k}" ${aSub===k?'selected':''}>${k} (${v})</option>`));sel.innerHTML=opts.join('');}
 
 function rViewTabs(){const vs=[{id:'O',l:'Overview'},{id:'C',l:'Compare'},{id:'B',l:'Breakdown'},{id:'R',l:'Top & Worst'},{id:'I',l:'Insights'},{id:'A',l:'All Posts'}];document.getElementById('viewTabs').innerHTML=vs.map(v=>`<div class="tab ${aView===v.id?'a':''}" onclick="sV('${v.id}')">${v.l}</div>`).join('');vs.forEach(v=>{const el=document.getElementById('v'+v.id);if(el)el.classList.toggle('hide',aView!==v.id);});}
 
